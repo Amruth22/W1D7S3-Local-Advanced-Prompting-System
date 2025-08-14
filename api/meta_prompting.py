@@ -24,7 +24,11 @@ meta_prompting_bp = Blueprint('meta_prompting', __name__)
 @meta_prompting_bp.before_request
 def validate_request():
     """Validate request before processing"""
-    # Check content type for POST requests
+    # Skip validation for OPTIONS requests (CORS preflight)
+    if request.method == 'OPTIONS':
+        return
+    
+    # Check content type for POST requests only
     if request.method == 'POST':
         content_type_error = validate_json_content_type(request)
         if content_type_error:
