@@ -95,7 +95,11 @@ def sentiment_analysis():
         description: Internal server error
     """
     try:
-        data = request.get_json()
+        # Try to get JSON data with proper error handling
+        try:
+            data = request.get_json(force=True)
+        except Exception as json_error:
+            return jsonify(format_error_response("INVALID_JSON", "Request body must contain valid JSON data")), 400
         
         # Check if JSON data is present
         if data is None:
