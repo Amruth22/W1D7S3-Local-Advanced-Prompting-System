@@ -3,7 +3,7 @@ Response Formatter Utility
 Standardizes API response format across all endpoints
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 
@@ -21,7 +21,7 @@ def format_success_response(data: Any, message: Optional[str] = None) -> Dict[st
     response = {
         "success": True,
         "data": data,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     }
     
     if message:
@@ -52,7 +52,7 @@ def format_error_response(
             "code": error_code,
             "message": error_message
         },
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     }
     
     if details:
@@ -205,7 +205,7 @@ def format_health_response(
     health_data = {
         "status": status,
         "services": services,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     }
     
     if additional_info:
