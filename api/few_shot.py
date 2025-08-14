@@ -97,6 +97,10 @@ def sentiment_analysis():
     try:
         data = request.get_json()
         
+        # Check if JSON data is present
+        if data is None:
+            return jsonify(format_error_response("MISSING_JSON_DATA", "Request body must contain valid JSON data")), 400
+        
         # Validate request data
         validation_errors = validate_few_shot_sentiment(data)
         if validation_errors:
