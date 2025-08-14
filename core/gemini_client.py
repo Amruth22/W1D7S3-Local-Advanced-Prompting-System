@@ -74,7 +74,6 @@ class GeminiClient:
         self, 
         prompt: str, 
         temperature: Optional[float] = None,
-        thinking_budget: Optional[int] = None,
         max_tokens: Optional[int] = None
     ) -> str:
         """
@@ -83,7 +82,6 @@ class GeminiClient:
         Args:
             prompt: Input prompt
             temperature: Sampling temperature (0.0 to 1.0)
-            thinking_budget: Thinking budget for reasoning
             max_tokens: Maximum tokens to generate
             
         Returns:
