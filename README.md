@@ -180,11 +180,11 @@ Error responses:
 python test_api.py
 
 # Run with test runner
-python run_tests.py --fast
+python unit_test.py --fast
 
 # Test specific endpoints
-python run_tests.py --test few-shot
-python run_tests.py --test chain-of-thought
+python unit_test.py --test few-shot
+python unit_test.py --test chain-of-thought
 ```
 
 ### Test Categories
@@ -231,7 +231,7 @@ local-advanced-prompting-system/
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
-└── run_tests.py               # Test runner
+└── unit_test.py               # Test runner
 ```
 
 ## 🎯 Usage Examples
@@ -315,7 +315,7 @@ class Config:
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Make your changes
-4. Run tests: `python run_tests.py --fast`
+4. Run tests: `python unit_test.py --fast`
 5. Commit changes: `git commit -m 'Add amazing feature'`
 6. Push to branch: `git push origin feature/amazing-feature`
 7. Submit a pull request
