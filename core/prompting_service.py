@@ -321,8 +321,7 @@ Working through approach {i+1}:"""
                 
                 response = await self.gemini_client._async_generate(
                     approach_prompt, 
-                    temperature=0.6, 
-                    thinking_budget=8000
+                    temperature=0.6
                 )
                 
                 approaches.append({
@@ -379,8 +378,7 @@ Best approach selection:"""
         
         evaluation = await self.gemini_client._async_generate(
             evaluation_prompt, 
-            temperature=0.3, 
-            thinking_budget=5000
+            temperature=0.3
         )
         
         return {
@@ -419,8 +417,7 @@ Best approach selection:"""
             responses = await self.gemini_client.generate_multiple_responses(
                 prompt, 
                 num_samples, 
-                temperature=0.7, 
-                thinking_budget=5000
+                temperature=0.7
             )
             
             # Analyze consistency
@@ -472,8 +469,7 @@ Consistency analysis:"""
         
         analysis = await self.gemini_client._async_generate(
             analysis_prompt, 
-            temperature=0.2, 
-            thinking_budget=5000
+            temperature=0.2
         )
         
         return {
@@ -515,8 +511,7 @@ Consistency analysis:"""
             )
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.4, 
-                thinking_budget=8000
+                temperature=0.4
             )
             
             processing_time = time.time() - start_time
@@ -557,8 +552,7 @@ Consistency analysis:"""
             prompt = meta_prompting.TASK_ANALYSIS.format(task=task)
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.3, 
-                thinking_budget=6000
+                temperature=0.3
             )
             
             processing_time = time.time() - start_time
