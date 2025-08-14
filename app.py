@@ -5,7 +5,7 @@ Main Flask application entry point
 
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flasgger import Swagger
@@ -154,7 +154,7 @@ def create_app():
             
             health_status = {
                 "status": "healthy" if gemini_test["gemini_api"] else "degraded",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "version": "1.0.0",
                 "services": {
                     "flask_app": True,
@@ -171,7 +171,7 @@ def create_app():
             logger.error(f"Health check failed: {e}")
             error_response = {
                 "status": "unhealthy",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "error": str(e)
             }
             return jsonify(format_error_response("HEALTH_CHECK_FAILED", str(e))), 503
