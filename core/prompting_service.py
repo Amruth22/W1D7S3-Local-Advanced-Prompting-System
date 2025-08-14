@@ -180,8 +180,7 @@ class PromptingService:
             prompt = chain_of_thought.MATH_PROBLEM_SOLVING.format(problem=problem)
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.3, 
-                thinking_budget=10000
+                temperature=0.3
             )
             
             processing_time = time.time() - start_time
@@ -219,8 +218,7 @@ class PromptingService:
             prompt = chain_of_thought.LOGICAL_REASONING.format(problem=problem)
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.3, 
-                thinking_budget=12000
+                temperature=0.3
             )
             
             processing_time = time.time() - start_time
@@ -256,11 +254,10 @@ class PromptingService:
         
         try:
             prompt = chain_of_thought.COMPLEX_ANALYSIS.format(problem=problem)
-            # Reduced thinking budget and optimized for faster response
+            # Optimized for faster response with thinking disabled
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.3, 
-                thinking_budget=8000  # Reduced from 15000 for faster response
+                temperature=0.3
             )
             
             processing_time = time.time() - start_time
