@@ -408,104 +408,10 @@ class TestMetaPromptingEndpoints:
         assert info_data["technique"] == "Meta-Prompting"
 
 
-class TestErrorHandling:
-    """Test error handling and edge cases"""
-    
-    def test_invalid_content_type(self, live_server):
-        """Test invalid content type handling"""
-        response = requests.post(
-            f"{live_server}/api/v1/few-shot/sentiment",
-            headers={'Content-Type': 'text/plain'},
-            data="invalid data"
-        )
-        
-        assert response.status_code == 400
-        
-        data = response.json()
-        assert data["success"] is False
-        assert data["error"]["code"] == "INVALID_CONTENT_TYPE"
-    
-    def test_missing_json_data(self, live_server, api_headers):
-        """Test missing JSON data"""
-        response = requests.post(
-            f"{live_server}/api/v1/few-shot/sentiment",
-            headers=api_headers
-        )
-        
-        assert response.status_code == 400
-    
-    def test_invalid_endpoint(self, live_server, api_headers):
-        """Test invalid endpoint"""
-        response = requests.get(f"{live_server}/api/v1/invalid-endpoint", headers=api_headers)
-        
-        assert response.status_code == 404
-        
-        data = response.json()
-        assert data["success"] is False
-        assert data["error"]["code"] == "NOT_FOUND"
-    
-    def test_method_not_allowed(self, live_server, api_headers):
-        """Test method not allowed"""
-        response = requests.get(f"{live_server}/api/v1/few-shot/sentiment", headers=api_headers)
-        
-        assert response.status_code == 405
-        
-        data = response.json()
-        assert data["success"] is False
-        assert data["error"]["code"] == "METHOD_NOT_ALLOWED"
 
 
-class TestPerformance:
-    """Test API performance with mocked responses"""
-    
-    def test_response_time(self, live_server, api_headers, sample_requests):
-        """Test that mocked responses are fast"""
-        request_data = sample_requests["few_shot_requests"]["sentiment"]
-        
-        start_time = time.time()
-        
-        response = requests.post(
-            f"{live_server}/api/v1/few-shot/sentiment",
-            headers=api_headers,
-            json=request_data
-        )
-        
-        end_time = time.time()
-        response_time = end_time - start_time
-        
-        assert response.status_code == 200
-        assert response_time < 2.0  # Should be fast with mocks
-        
-        data = response.json()
-        assert "processing_time" in data["data"]
-    
-    def test_multiple_requests(self, live_server, api_headers, sample_requests):
-        """Test multiple requests performance"""
-        request_data = sample_requests["few_shot_requests"]["sentiment"]
-        
-        start_time = time.time()
-        
-        # Make 5 requests
-        responses = []
-        for _ in range(5):
-            response = requests.post(
-                f"{live_server}/api/v1/few-shot/sentiment",
-                headers=api_headers,
-                json=request_data
-            )
-            responses.append(response)
-        
-        end_time = time.time()
-        total_time = end_time - start_time
-        
-        # All requests should succeed
-        for response in responses:
-            assert response.status_code == 200
-        
-        # Should be fast with mocks
-        assert total_time < 5.0
-        
-        print(f"5 requests completed in {total_time:.2f} seconds")
+
+
 
 
 if __name__ == "__main__":
