@@ -7,7 +7,7 @@ import asyncio
 import time
 from typing import Dict, Any, List, Optional
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 from .gemini_client import get_gemini_client
 from prompts import few_shot, chain_of_thought, tree_of_thought, self_consistency, meta_prompting
@@ -593,7 +593,7 @@ Consistency analysis:"""
                 "Meta-Prompting"
             ],
             "model_info": self.gemini_client.get_model_info(),
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
     
     def test_all_techniques(self) -> Dict[str, Any]:
