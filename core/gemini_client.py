@@ -105,13 +105,16 @@ class GeminiClient:
             
             logger.debug(f"Generating response for prompt: {prompt[:100]}...")
             
-            response = self.client.models.generate_content(
-                model=self.model,
-                contents=contents,
-                config=config
-            )
+            def _make_api_call():
+                response = self.client.models.generate_content(
+                    model=self.model,
+                    contents=contents,
+                    config=config
+                )
+                return response.candidates[0].content.parts[0].text
             
-            result = response.candidates[0].content.parts[0].text
+            # Use timeout wrapper for API call
+            result = self._with_timeout(_make_api_call, timeout_seconds=20)
             logger.debug(f"Generated response: {result[:100]}...")
             
             return result
