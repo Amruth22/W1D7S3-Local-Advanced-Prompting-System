@@ -81,8 +81,12 @@ def create_app():
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.config['TESTING'] = False
     
-    # Enable CORS
-    CORS(app, origins="*")
+    # Enable CORS with comprehensive settings
+    CORS(app, 
+         origins="*", 
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         allow_headers=["Content-Type", "Authorization", "Accept", "X-Requested-With"],
+         supports_credentials=True)
     
     # Initialize Swagger UI
     swagger = Swagger(app, config=swagger_config, template=swagger_template)
