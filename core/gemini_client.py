@@ -102,7 +102,7 @@ class GeminiClient:
             
             config = types.GenerateContentConfig(
                 thinking_config=types.ThinkingConfig(
-                    thinking_budget=thinking_budget or self.default_thinking_budget
+                    thinking_budget=0  # Disabled for faster responses
                 ),
                 temperature=temperature or self.default_temperature
             )
