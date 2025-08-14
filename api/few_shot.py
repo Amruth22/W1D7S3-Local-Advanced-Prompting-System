@@ -40,12 +40,54 @@ def validate_request():
 @few_shot_bp.route('/sentiment', methods=['POST'])
 def sentiment_analysis():
     """
-    Perform sentiment analysis using few-shot learning
-    
-    Expected JSON payload:
-    {
-        "text": "Text to analyze for sentiment"
-    }
+    Sentiment Analysis using Few-shot Learning
+    ---
+    tags:
+      - Few-shot Learning
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - text
+          properties:
+            text:
+              type: string
+              description: Text to analyze for sentiment
+              example: "This product is absolutely amazing!"
+    responses:
+      200:
+        description: Sentiment analysis result
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Few-shot Learning"
+                task:
+                  type: string
+                  example: "sentiment_analysis"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "positive"
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -81,12 +123,53 @@ def sentiment_analysis():
 @few_shot_bp.route('/math', methods=['POST'])
 def math_solver():
     """
-    Solve math problems using few-shot learning
-    
-    Expected JSON payload:
-    {
-        "problem": "Math problem to solve"
-    }
+    Math Problem Solver using Few-shot Learning
+    ---
+    tags:
+      - Few-shot Learning
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - problem
+          properties:
+            problem:
+              type: string
+              description: Math problem to solve
+              example: "If a pizza costs $12 and has 8 slices, what does each slice cost?"
+    responses:
+      200:
+        description: Math problem solution
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Few-shot Learning"
+                task:
+                  type: string
+                  example: "math_solving"
+                input:
+                  type: string
+                output:
+                  type: string
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -122,12 +205,54 @@ def math_solver():
 @few_shot_bp.route('/ner', methods=['POST'])
 def named_entity_recognition():
     """
-    Extract named entities using few-shot learning
-    
-    Expected JSON payload:
-    {
-        "text": "Text to extract entities from"
-    }
+    Named Entity Recognition using Few-shot Learning
+    ---
+    tags:
+      - Few-shot Learning
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - text
+          properties:
+            text:
+              type: string
+              description: Text to extract entities from
+              example: "Apple Inc. was founded by Steve Jobs in California."
+    responses:
+      200:
+        description: Named entity recognition result
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Few-shot Learning"
+                task:
+                  type: string
+                  example: "named_entity_recognition"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "ORGANIZATION: Apple Inc. | PERSON: Steve Jobs | LOCATION: California"
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -163,12 +288,54 @@ def named_entity_recognition():
 @few_shot_bp.route('/classification', methods=['POST'])
 def text_classification():
     """
-    Classify text using few-shot learning
-    
-    Expected JSON payload:
-    {
-        "text": "Text to classify"
-    }
+    Text Classification using Few-shot Learning
+    ---
+    tags:
+      - Few-shot Learning
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - text
+          properties:
+            text:
+              type: string
+              description: Text to classify
+              example: "How do I reset my password?"
+    responses:
+      200:
+        description: Text classification result
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Few-shot Learning"
+                task:
+                  type: string
+                  example: "text_classification"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "technical_support"
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
