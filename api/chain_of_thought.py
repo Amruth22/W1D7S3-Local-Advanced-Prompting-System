@@ -39,12 +39,54 @@ def validate_request():
 @chain_of_thought_bp.route('/math', methods=['POST'])
 def math_reasoning():
     """
-    Solve math problems using chain-of-thought reasoning
-    
-    Expected JSON payload:
-    {
-        "problem": "Math problem requiring step-by-step reasoning"
-    }
+    Math Reasoning using Chain-of-Thought
+    ---
+    tags:
+      - Chain-of-Thought
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - problem
+          properties:
+            problem:
+              type: string
+              description: Math problem requiring step-by-step reasoning
+              example: "A car travels 60 mph for 2.5 hours. How far does it travel?"
+    responses:
+      200:
+        description: Step-by-step math solution
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Chain-of-Thought"
+                task:
+                  type: string
+                  example: "math_reasoning"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "Step 1: Identify the given information...\nStep 2: Apply the formula...\nStep 3: Calculate the result..."
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -80,12 +122,54 @@ def math_reasoning():
 @chain_of_thought_bp.route('/logic', methods=['POST'])
 def logical_reasoning():
     """
-    Solve logical problems using chain-of-thought reasoning
-    
-    Expected JSON payload:
-    {
-        "problem": "Logical problem requiring step-by-step analysis"
-    }
+    Logical Reasoning using Chain-of-Thought
+    ---
+    tags:
+      - Chain-of-Thought
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - problem
+          properties:
+            problem:
+              type: string
+              description: Logical problem requiring step-by-step analysis
+              example: "All birds can fly. Penguins are birds. Can penguins fly?"
+    responses:
+      200:
+        description: Step-by-step logical analysis
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Chain-of-Thought"
+                task:
+                  type: string
+                  example: "logical_reasoning"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "Let me analyze this step by step...\n1. Premise 1: All birds can fly\n2. Premise 2: Penguins are birds\n3. Logical conclusion..."
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -121,12 +205,54 @@ def logical_reasoning():
 @chain_of_thought_bp.route('/analysis', methods=['POST'])
 def complex_analysis():
     """
-    Analyze complex problems using chain-of-thought reasoning
-    
-    Expected JSON payload:
-    {
-        "problem": "Complex problem requiring detailed analysis"
-    }
+    Complex Analysis using Chain-of-Thought
+    ---
+    tags:
+      - Chain-of-Thought
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - problem
+          properties:
+            problem:
+              type: string
+              description: Complex problem requiring detailed analysis
+              example: "What are the potential impacts of AI on employment?"
+    responses:
+      200:
+        description: Detailed step-by-step analysis
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Chain-of-Thought"
+                task:
+                  type: string
+                  example: "complex_analysis"
+                input:
+                  type: string
+                output:
+                  type: string
+                  example: "Let me break down this complex issue...\n1. Current state analysis...\n2. Potential positive impacts...\n3. Potential negative impacts..."
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
