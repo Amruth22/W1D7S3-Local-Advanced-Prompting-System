@@ -137,8 +137,7 @@ class GeminiClient:
         self, 
         prompt: str, 
         num_responses: int = 3,
-        temperature: Optional[float] = None,
-        thinking_budget: Optional[int] = None
+        temperature: Optional[float] = None
     ) -> List[str]:
         """
         Generate multiple responses asynchronously
@@ -158,7 +157,7 @@ class GeminiClient:
             tasks = []
             for _ in range(num_responses):
                 task = asyncio.create_task(
-                    self._async_generate(prompt, temperature, thinking_budget)
+                    self._async_generate(prompt, temperature)
                 )
                 tasks.append(task)
             
@@ -174,11 +173,10 @@ class GeminiClient:
     async def _async_generate(
         self, 
         prompt: str, 
-        temperature: Optional[float],
-        thinking_budget: Optional[int]
+        temperature: Optional[float]
     ) -> str:
         """Async wrapper for generate_response"""
-        return self.generate_response(prompt, temperature, thinking_budget)
+        return self.generate_response(prompt, temperature)
     
     def test_connection(self) -> Dict[str, Any]:
         """
@@ -192,8 +190,7 @@ class GeminiClient:
             
             test_response = self.generate_response(
                 "Respond with exactly: 'Connection test successful'",
-                temperature=0.0,
-                thinking_budget=0
+                temperature=0.0
             )
             
             success = "successful" in test_response.lower()
