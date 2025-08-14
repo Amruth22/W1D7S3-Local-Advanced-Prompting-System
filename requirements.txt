@@ -1,0 +1,32 @@
+# Core Flask dependencies
+Flask>=2.3.0
+Flask-CORS>=4.0.0
+Werkzeug>=2.3.0
+
+# Google Gemini API
+google-genai>=0.3.0
+
+# Environment and configuration
+python-dotenv>=1.0.0
+
+# Data handling
+requests>=2.31.0
+asyncio
+typing-extensions>=4.5.0
+
+# Validation and serialization
+marshmallow>=3.19.0
+jsonschema>=4.17.0
+
+# Utilities
+datetime
+json
+statistics
+enum
+hashlib
+
+# Testing dependencies
+unittest-xml-reporting>=3.2.0
+pytest>=7.4.0
+pytest-flask>=1.2.0
+pytest-asyncio>=0.21.0
