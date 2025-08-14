@@ -95,17 +95,12 @@ def sentiment_analysis():
         description: Internal server error
     """
     try:
-        # Check if request has data
-        if not hasattr(request, 'data') or not request.data:
-            return jsonify(format_error_response("MISSING_JSON_DATA", "Request body must contain valid JSON data")), 400
+        # Get JSON data with silent error handling
+        data = request.get_json(silent=True)
         
-        # Try to get JSON data with proper error handling
-        try:
-            data = request.get_json()
-            if data is None:
-                return jsonify(format_error_response("INVALID_JSON", "Request body must contain valid JSON data")), 400
-        except Exception as json_error:
-            return jsonify(format_error_response("INVALID_JSON", "Request body must contain valid JSON data")), 400
+        # Check if JSON data is present and valid
+        if data is None:
+            return jsonify(format_error_response("MISSING_JSON_DATA", "Request body must contain valid JSON data")), 400
         
         # Validate request data
         validation_errors = validate_few_shot_sentiment(data)
