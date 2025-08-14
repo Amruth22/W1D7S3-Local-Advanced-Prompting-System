@@ -256,10 +256,11 @@ class PromptingService:
         
         try:
             prompt = chain_of_thought.COMPLEX_ANALYSIS.format(problem=problem)
+            # Reduced thinking budget and optimized for faster response
             response = self.gemini_client.generate_response(
                 prompt, 
-                temperature=0.4, 
-                thinking_budget=15000
+                temperature=0.3, 
+                thinking_budget=8000  # Reduced from 15000 for faster response
             )
             
             processing_time = time.time() - start_time
