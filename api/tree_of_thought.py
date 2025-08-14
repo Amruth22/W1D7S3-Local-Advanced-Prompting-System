@@ -39,13 +39,83 @@ def validate_request():
 @tree_of_thought_bp.route('/explore', methods=['POST'])
 def explore_problem():
     """
-    Explore multiple solution approaches using tree-of-thought
-    
-    Expected JSON payload:
-    {
-        "problem": "Complex problem to explore",
-        "max_approaches": 3  // Optional, defaults to 3
-    }
+    Multi-Approach Problem Exploration using Tree-of-Thought
+    ---
+    tags:
+      - Tree-of-Thought
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - problem
+          properties:
+            problem:
+              type: string
+              description: Complex problem to explore with multiple approaches
+              example: "How can we reduce plastic waste in our city?"
+            max_approaches:
+              type: integer
+              description: Maximum number of approaches to explore (1-5)
+              example: 3
+              default: 3
+              minimum: 1
+              maximum: 5
+    responses:
+      200:
+        description: Multiple solution approaches with best selection
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Tree-of-Thought"
+                task:
+                  type: string
+                  example: "multi_approach_exploration"
+                input:
+                  type: string
+                output:
+                  type: object
+                  properties:
+                    explored_approaches:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          approach_number:
+                            type: integer
+                          approach_name:
+                            type: string
+                          solution:
+                            type: string
+                    best_approach:
+                      type: object
+                      properties:
+                        evaluation:
+                          type: string
+                        selection_criteria:
+                          type: array
+                          items:
+                            type: string
+                    total_approaches:
+                      type: integer
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
