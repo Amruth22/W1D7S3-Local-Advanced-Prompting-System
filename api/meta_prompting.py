@@ -39,13 +39,64 @@ def validate_request():
 @meta_prompting_bp.route('/optimize', methods=['POST'])
 def optimize_prompt():
     """
-    Optimize prompts using meta-prompting techniques
-    
-    Expected JSON payload:
-    {
-        "task": "Description of the task",
-        "current_prompt": "Current prompt to optimize"
-    }
+    Prompt Optimization using Meta-Prompting
+    ---
+    tags:
+      - Meta-Prompting
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - task
+            - current_prompt
+          properties:
+            task:
+              type: string
+              description: Description of the task
+              example: "Classify customer feedback"
+            current_prompt:
+              type: string
+              description: Current prompt to optimize
+              example: "Is this feedback positive or negative: {text}"
+    responses:
+      200:
+        description: Optimized prompt with improvements
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Meta-Prompting"
+                task:
+                  type: string
+                  example: "prompt_optimization"
+                input:
+                  type: object
+                  properties:
+                    task:
+                      type: string
+                    current_prompt:
+                      type: string
+                output:
+                  type: string
+                  description: Optimized prompt with explanations
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
@@ -81,12 +132,54 @@ def optimize_prompt():
 @meta_prompting_bp.route('/analyze', methods=['POST'])
 def analyze_task():
     """
-    Analyze tasks for better prompting using meta-prompting
-    
-    Expected JSON payload:
-    {
-        "task": "Task to analyze for optimal prompting approach"
-    }
+    Task Analysis using Meta-Prompting
+    ---
+    tags:
+      - Meta-Prompting
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - task
+          properties:
+            task:
+              type: string
+              description: Task to analyze for optimal prompting approach
+              example: "Create a comprehensive marketing strategy for a new product"
+    responses:
+      200:
+        description: Task analysis with prompting recommendations
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Meta-Prompting"
+                task:
+                  type: string
+                  example: "task_analysis"
+                input:
+                  type: string
+                output:
+                  type: string
+                  description: Analysis with prompting recommendations
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
