@@ -26,15 +26,20 @@ few_shot_bp = Blueprint('few_shot', __name__)
 @few_shot_bp.before_request
 def validate_request():
     """Validate request before processing"""
-    # Check content type
-    content_type_error = validate_json_content_type(request)
-    if content_type_error:
-        return jsonify(format_error_response("INVALID_CONTENT_TYPE", content_type_error)), 400
+    # Skip validation for OPTIONS requests (CORS preflight)
+    if request.method == 'OPTIONS':
+        return
     
-    # Check request size
-    size_error = validate_request_size(request, max_size_mb=1)
-    if size_error:
-        return jsonify(format_error_response("REQUEST_TOO_LARGE", size_error)), 413
+    # Check content type for POST requests only
+    if request.method == 'POST':
+        content_type_error = validate_json_content_type(request)
+        if content_type_error:
+            return jsonify(format_error_response("INVALID_CONTENT_TYPE", content_type_error)), 400
+        
+        # Check request size
+        size_error = validate_request_size(request, max_size_mb=1)
+        if size_error:
+            return jsonify(format_error_response("REQUEST_TOO_LARGE", size_error)), 413
 
 
 @few_shot_bp.route('/sentiment', methods=['POST'])
