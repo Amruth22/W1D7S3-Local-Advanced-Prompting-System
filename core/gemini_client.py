@@ -43,6 +43,26 @@ class GeminiClient:
         
         logger.info(f"Gemini client initialized with model: {self.model}")
     
+    def _timeout_handler(self, signum, frame):
+        """Handle timeout for API calls"""
+        raise TimeoutError("Gemini API call timed out")
+    
+    def _with_timeout(self, func, timeout_seconds=25):
+        """Execute function with timeout"""
+        # Set up timeout handler
+        old_handler = signal.signal(signal.SIGALRM, self._timeout_handler)
+        signal.alarm(timeout_seconds)
+        
+        try:
+            result = func()
+            signal.alarm(0)  # Cancel the alarm
+            return result
+        except TimeoutError:
+            logger.error(f"API call timed out after {timeout_seconds} seconds")
+            raise Exception(f"Request timed out after {timeout_seconds} seconds. Please try a simpler query.")
+        finally:
+            signal.signal(signal.SIGALRM, old_handler)  # Restore old handler
+    
     def generate_response(
         self, 
         prompt: str, 
