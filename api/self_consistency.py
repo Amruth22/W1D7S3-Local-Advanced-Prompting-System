@@ -39,13 +39,80 @@ def validate_request():
 @self_consistency_bp.route('/validate', methods=['POST'])
 def validate_consistency():
     """
-    Get consistent answers using multiple sampling and validation
-    
-    Expected JSON payload:
-    {
-        "question": "Question to answer with consistency validation",
-        "num_samples": 3  // Optional, defaults to 3
-    }
+    Consistency Validation using Self-Consistency
+    ---
+    tags:
+      - Self-Consistency
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - question
+          properties:
+            question:
+              type: string
+              description: Question to answer with consistency validation
+              example: "What are the main benefits of renewable energy?"
+            num_samples:
+              type: integer
+              description: Number of samples for consistency check (2-5)
+              example: 3
+              default: 3
+              minimum: 2
+              maximum: 5
+    responses:
+      200:
+        description: Multiple responses with consistency analysis
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                technique:
+                  type: string
+                  example: "Self-Consistency"
+                task:
+                  type: string
+                  example: "consistency_validation"
+                input:
+                  type: string
+                output:
+                  type: object
+                  properties:
+                    all_responses:
+                      type: array
+                      items:
+                        type: string
+                      description: All generated responses
+                    consistency_analysis:
+                      type: object
+                      properties:
+                        analysis:
+                          type: string
+                        response_count:
+                          type: integer
+                        most_consistent_answer:
+                          type: string
+                    final_answer:
+                      type: string
+                      description: Most consistent answer
+                    num_samples:
+                      type: integer
+                metadata:
+                  type: object
+      400:
+        description: Bad request - Invalid input
+      429:
+        description: Rate limit exceeded
+      500:
+        description: Internal server error
     """
     try:
         data = request.get_json()
