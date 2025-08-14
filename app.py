@@ -8,6 +8,7 @@ import logging
 from datetime import datetime
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flasgger import Swagger
 from dotenv import load_dotenv
 
 from core.gemini_client import initialize_gemini_client
@@ -32,6 +33,44 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Swagger configuration
+swagger_config = {
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": 'apispec_1',
+            "route": '/apispec_1.json',
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/docs/"
+}
+
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "Local Advanced Prompting System API",
+        "description": "A comprehensive Flask API for advanced prompting techniques with local deployment capabilities.",
+        "contact": {
+            "name": "API Support",
+            "url": "https://github.com/Amruth22/Local-Advanced-Prompting-System"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:5000",
+    "basePath": "/api/v1",
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+}
+
 
 def create_app():
     """Create and configure Flask application"""
@@ -44,6 +83,9 @@ def create_app():
     
     # Enable CORS
     CORS(app, origins="*")
+    
+    # Initialize Swagger UI
+    swagger = Swagger(app, config=swagger_config, template=swagger_template)
     
     # Initialize Gemini client
     try:
@@ -67,7 +109,41 @@ def create_app():
     # Health check endpoint
     @app.route(f"{api_prefix}/health")
     def health_check():
-        """Health check endpoint"""
+        """
+        Health Check Endpoint
+        ---
+        tags:
+          - System
+        responses:
+          200:
+            description: System is healthy
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "healthy"
+                    services:
+                      type: object
+                      properties:
+                        flask_app:
+                          type: boolean
+                          example: true
+                        gemini_api:
+                          type: boolean
+                          example: true
+                        prompting_service:
+                          type: boolean
+                          example: true
+          503:
+            description: System is unhealthy
+        """
         try:
             service = get_prompting_service()
             gemini_test = service.gemini_client.test_connection()
@@ -99,7 +175,32 @@ def create_app():
     # API info endpoint
     @app.route(f"{api_prefix}/info")
     def api_info():
-        """API information endpoint"""
+        """
+        API Information Endpoint
+        ---
+        tags:
+          - System
+        responses:
+          200:
+            description: API information
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  type: object
+                  properties:
+                    api_name:
+                      type: string
+                      example: "Local Advanced Prompting System"
+                    version:
+                      type: string
+                      example: "1.0.0"
+                    endpoints:
+                      type: object
+        """
         try:
             service = get_prompting_service()
             info = service.get_service_info()
@@ -108,6 +209,7 @@ def create_app():
                 "api_name": "Local Advanced Prompting System",
                 "version": "1.0.0",
                 "description": "Flask API for advanced prompting techniques",
+                "swagger_ui": "/docs/",
                 "endpoints": {
                     "few_shot": [
                         f"{base_url}/few-shot/sentiment",
@@ -143,14 +245,38 @@ def create_app():
     # Root endpoint
     @app.route("/")
     def root():
-        """Root endpoint with welcome message"""
+        """
+        Root Endpoint
+        ---
+        tags:
+          - System
+        responses:
+          200:
+            description: Welcome message with API information
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  type: object
+        """
         welcome_data = {
             "message": "Welcome to Local Advanced Prompting System API",
             "version": "1.0.0",
             "documentation": "https://github.com/Amruth22/Local-Advanced-Prompting-System",
+            "swagger_ui": "/docs/",
             "health_check": f"{api_prefix}/health",
             "api_info": f"{api_prefix}/info",
-            "base_url": base_url
+            "base_url": base_url,
+            "quick_links": {
+                "📚 Swagger Documentation": "/docs/",
+                "📊 API Information": f"{api_prefix}/info",
+                "❤️ Health Check": f"{api_prefix}/health",
+                "🧠 Few-shot Sentiment": f"{base_url}/few-shot/sentiment",
+                "🔗 Chain-of-Thought Math": f"{base_url}/chain-of-thought/math"
+            }
         }
         return jsonify(format_success_response(welcome_data))
     
@@ -202,8 +328,18 @@ def main():
     port = int(os.getenv('FLASK_PORT', 5000))
     debug = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     
+    print("🚀 LOCAL ADVANCED PROMPTING SYSTEM API WITH SWAGGER UI")
+    print("=" * 60)
+    print(f"🌐 Server: http://{host}:{port}")
+    print(f"📚 Swagger UI: http://{host}:{port}/docs/")
+    print(f"📊 API Info: http://{host}:{port}/api/info")
+    print(f"❤️ Health Check: http://{host}:{port}/api/health")
+    print(f"🔧 Debug Mode: {debug}")
+    print("=" * 60)
+    
     logger.info(f"Starting Local Advanced Prompting System API")
     logger.info(f"Server: http://{host}:{port}")
+    logger.info(f"Swagger UI: http://{host}:{port}/docs/")
     logger.info(f"Health Check: http://{host}:{port}/api/health")
     logger.info(f"API Info: http://{host}:{port}/api/info")
     logger.info(f"Debug Mode: {debug}")
