@@ -5,6 +5,7 @@ Handles all interactions with Google's Gemini API
 
 import os
 import asyncio
+import signal
 from typing import List, Dict, Any, Optional
 from google import genai
 from google.genai import types
