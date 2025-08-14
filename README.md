@@ -43,7 +43,12 @@ pip install -r requirements.txt
    python app.py
    ```
 
-4. **Test the API:**
+4. **Access Swagger UI for interactive testing:**
+   ```
+   http://localhost:5000/docs/
+   ```
+
+5. **Test the API:**
    ```bash
    curl http://localhost:5000/api/health
    ```
