@@ -22,12 +22,7 @@ jsonschema>=4.17.0
 flask-restx>=1.1.0
 flasgger>=0.9.7
 
-# Utilities
-datetime
-json
-statistics
-enum
-hashlib
+# Note: datetime, json, statistics, enum, hashlib are built-in Python modules
 
 # Testing dependencies
 unittest-xml-reporting>=3.2.0
