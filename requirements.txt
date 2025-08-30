@@ -11,8 +11,8 @@ python-dotenv>=1.0.0
 
 # Data handling
 requests>=2.31.0
-asyncio
 typing-extensions>=4.5.0
+# Note: asyncio is built-in Python module (Python 3.7+)
 
 # Validation and serialization
 marshmallow>=3.19.0
