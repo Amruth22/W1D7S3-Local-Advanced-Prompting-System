@@ -160,7 +160,13 @@ class MockPromptingService:
     """Mock prompting service with all techniques"""
     def __init__(self):
         self.gemini_client = MockGeminiClient()
+        # Override the generate_response method to return technique-specific responses
+        self._setup_technique_responses()
     
+    def _setup_technique_responses(self):
+        """Setup technique-specific response mapping"""
+        self._current_technique = None
+        
     def few_shot_sentiment_analysis(self, text: str) -> Dict[str, Any]:
         return {
             "technique": "Few-shot Learning",
@@ -198,6 +204,7 @@ class MockPromptingService:
         }
     
     def chain_of_thought_math_solver(self, problem: str) -> Dict[str, Any]:
+        # Return the actual mock response directly
         return {
             "technique": "Chain-of-Thought",
             "task": "math_reasoning",
@@ -207,6 +214,7 @@ class MockPromptingService:
         }
     
     def chain_of_thought_logical_reasoning(self, problem: str) -> Dict[str, Any]:
+        # Return the actual mock response directly
         return {
             "technique": "Chain-of-Thought",
             "task": "logical_reasoning",
@@ -243,6 +251,7 @@ class MockPromptingService:
         }
     
     def meta_prompt_optimization(self, task: str, current_prompt: str) -> Dict[str, Any]:
+        # Return the actual mock response directly
         return {
             "technique": "Meta-Prompting",
             "task": "prompt_optimization",
