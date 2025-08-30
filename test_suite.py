@@ -193,7 +193,7 @@ class MockPromptingService:
             "task": "math_reasoning",
             "input": problem,
             "output": MOCK_RESPONSES["chain_of_thought_math"],
-            "metadata": {"processing_time": 0.22, "model": "gemini-2.5-flash"}
+            "metadata": {"processing_time": 0.22, "model": "gemini-2.5-flash", "thinking_budget": 10000}
         }
     
     def chain_of_thought_logical_reasoning(self, problem: str) -> Dict[str, Any]:
@@ -202,7 +202,7 @@ class MockPromptingService:
             "task": "logical_reasoning",
             "input": problem,
             "output": MOCK_RESPONSES["chain_of_thought_logic"],
-            "metadata": {"processing_time": 0.25, "model": "gemini-2.5-flash"}
+            "metadata": {"processing_time": 0.25, "model": "gemini-2.5-flash", "thinking_budget": 12000}
         }
     
     def chain_of_thought_complex_analysis(self, problem: str) -> Dict[str, Any]:
@@ -210,8 +210,8 @@ class MockPromptingService:
             "technique": "Chain-of-Thought",
             "task": "complex_analysis",
             "input": problem,
-            "output": "Complex analysis with detailed reasoning steps",
-            "metadata": {"processing_time": 0.35, "model": "gemini-2.5-flash"}
+            "output": "Let me analyze this step by step: 1. First, I'll examine the key factors. 2. Then I'll consider the relationships. 3. Finally, I'll draw conclusions.",
+            "metadata": {"processing_time": 0.35, "model": "gemini-2.5-flash", "thinking_budget": 15000}
         }
     
     async def tree_of_thought_explore(self, problem: str, max_approaches: int = 3) -> Dict[str, Any]:
@@ -238,7 +238,7 @@ class MockPromptingService:
             "task": "prompt_optimization",
             "input": {"task": task, "current_prompt": current_prompt},
             "output": MOCK_RESPONSES["meta_prompting"],
-            "metadata": {"processing_time": 0.28, "model": "gemini-2.5-flash"}
+            "metadata": {"processing_time": 0.28, "model": "gemini-2.5-flash", "thinking_budget": 8000}
         }
     
     def meta_task_analysis(self, task: str) -> Dict[str, Any]:
@@ -246,8 +246,8 @@ class MockPromptingService:
             "technique": "Meta-Prompting",
             "task": "task_analysis",
             "input": task,
-            "output": "Task analysis with recommendations for better prompting",
-            "metadata": {"processing_time": 0.20, "model": "gemini-2.5-flash"}
+            "output": "Task analysis with recommendations for better prompting and optimization strategies to improve prompt effectiveness.",
+            "metadata": {"processing_time": 0.20, "model": "gemini-2.5-flash", "thinking_budget": 6000}
         }
     
     def get_service_info(self) -> Dict[str, Any]:
