@@ -87,22 +87,32 @@ class MockGeminiClient:
     
     def generate_response(self, prompt: str, temperature: float = None, max_tokens: int = None) -> str:
         """Mock response generation"""
-        # Determine response based on prompt content
-        if "sentiment" in prompt.lower():
+        # Debug: Print what prompt we're processing
+        print(f"  MOCK DEBUG: Processing prompt: {prompt[:100]}...")
+        
+        # Determine response based on prompt content - more specific matching
+        if "sentiment" in prompt.lower() and "example" in prompt.lower():
             return MOCK_RESPONSES["few_shot_sentiment"]
-        elif "math" in prompt.lower() and "step" in prompt.lower():
+        elif "step by step" in prompt.lower() and "math" in prompt.lower():
+            return MOCK_RESPONSES["chain_of_thought_math"]
+        elif "step by step" in prompt.lower() and "logical" in prompt.lower():
+            return MOCK_RESPONSES["chain_of_thought_logic"]
+        elif "step by step" in prompt.lower():
             return MOCK_RESPONSES["chain_of_thought_math"]
         elif "math" in prompt.lower():
             return MOCK_RESPONSES["few_shot_math"]
-        elif "entities" in prompt.lower() or "ner" in prompt.lower():
+        elif "entities" in prompt.lower() or "extract entities" in prompt.lower():
             return MOCK_RESPONSES["few_shot_ner"]
-        elif "classify" in prompt.lower():
+        elif "classify" in prompt.lower() and "example" in prompt.lower():
             return MOCK_RESPONSES["few_shot_classification"]
-        elif "logical" in prompt.lower():
+        elif "logical" in prompt.lower() and "reasoning" in prompt.lower():
             return MOCK_RESPONSES["chain_of_thought_logic"]
-        elif "optimize" in prompt.lower() or "meta" in prompt.lower():
+        elif "optimize" in prompt.lower() and "prompt" in prompt.lower():
             return MOCK_RESPONSES["meta_prompting"]
+        elif "task" in prompt.lower() and "analysis" in prompt.lower():
+            return "Task analysis with recommendations for better prompting and optimization strategies to improve prompt effectiveness."
         else:
+            print(f"  MOCK DEBUG: No specific match found, using default")
             return "Mock response for advanced prompting technique"
     
     async def generate_multiple_responses(self, prompt: str, num_samples: int = 3, temperature: float = None) -> List[str]:
