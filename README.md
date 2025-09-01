@@ -53,6 +53,15 @@ pip install -r requirements.txt
    curl http://localhost:5000/api/health
    ```
 
+6. **Run comprehensive tests (w1d4s2-style-tests branch):**
+   ```bash
+   # Switch to testing branch
+   git checkout w1d4s2-style-tests
+   
+   # Run core integration tests
+   python test_unit.py
+   ```
+
 ## 🌐 API Endpoints
 
 ### Health Check
@@ -174,20 +183,36 @@ Error responses:
 
 ## 🧪 Testing
 
-### Run Fast Unit Tests
+### Comprehensive Testing Suite (w1d4s2-style-tests branch)
+
+**Real API Integration Tests:**
 ```bash
+# Run comprehensive core tests with real API integration
+python test_unit.py
+
 # Fast tests with mocked API calls (~15 seconds)
-python test_api.py
+python tests.py
 
-# Run with test runner
-python unit_test.py --fast
-
-# Test specific endpoints
-python unit_test.py --test few-shot
-python unit_test.py --test chain-of-thought
+# Test specific components
+python -m unittest test_unit.CoreAdvancedPromptingTests.test_01_gemini_client_integration
+python -m unittest test_unit.CoreAdvancedPromptingTests.test_02_advanced_prompting_service
 ```
 
-### Test Categories
+### Core Test Suite (5 Essential Tests)
+- ✅ **Test 1: Gemini Client Integration** - Real API communication, response generation, validation
+- ✅ **Test 2: Advanced Prompting Service** - Few-shot learning, chain-of-thought, meta-prompting techniques
+- ✅ **Test 3: Flask API Endpoints** - Request handling, error responses, blueprint registration
+- ✅ **Test 4: Prompt Templates & Validation** - Template formatting, input validation, response formatting
+- ✅ **Test 5: Integration Workflow** - Production readiness, scalability, security validation
+
+### Testing Features
+- **Real API Integration** - Tests actual Gemini API calls with proper error handling
+- **Component Validation** - Validates all core components (client, service, Flask app)
+- **Production Readiness** - Tests scalability, security, and monitoring features
+- **Environment Validation** - Validates configuration and dependency setup
+- **Performance Testing** - Response time and reliability validation
+
+### Legacy Test Categories
 - ✅ **API Health & Configuration** - Server startup, environment validation
 - ✅ **Few-shot Learning Endpoints** - Sentiment, math, NER, classification
 - ✅ **Chain-of-Thought Endpoints** - Math reasoning, logical analysis
@@ -231,6 +256,8 @@ local-advanced-prompting-system/
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
+├── test_unit.py               # Core integration tests (w1d4s2-style-tests)
+├── tests.py                   # Legacy comprehensive tests
 └── unit_test.py               # Test runner
 ```
 
